@@ -67,3 +67,26 @@ More information about the usage of this directory in [the documentation](https:
 This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
 
 More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+
+## api
+
+Generated with https://json-generator.com/
+
+
+```
+[
+  '{{repeat(301, 1000)}}',
+  {
+    id: '{{objectId()}}',
+    group: '{{random("Руководство", "Бухгалтерия", "Отдел кадров", "ИТД")}}',
+    name: '{{firstName()}} {{surname()}}',
+    email: '{{email()}}',
+    phone: '+1 {{phone()}}',
+    gender: '{{gender()}}',
+    picture: function (tags) {
+      var gender = (this.gender=="male")?"men":"women";
+      return 'https://randomuser.me/api/portraits/' + gender + '/' + tags.integer(0,99) + '.jpg';
+    }
+  }
+]
+```

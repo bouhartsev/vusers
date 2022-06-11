@@ -9,6 +9,7 @@
                 >{{ item.label }}</el-radio-button
             >
         </el-radio-group>
+        <!-- поиск -->
         <NuxtChild />
         <el-backtop />
     </div>
