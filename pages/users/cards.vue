@@ -1,6 +1,6 @@
 <template>
     <div>
-        Filter (group)
+        <!-- Filter (group) -->
         <!-- <label for="sorting"
             >Сортировка
             <el-select

@@ -1,11 +1,11 @@
 <template>
-    <div>
+    <div class="fill-container">
       <el-divider/>
       <!-- Почему-то бесконечный скролл не работает правильно -->
         <el-table
             :data="users"
-            height="500"
-            style="width: 100%; overflow: auto"
+            :height="500"
+            class="fill-child"
             @selection-change="handleSelectionChange"
             v-infinite-scroll="load"
             :infinite-scroll-disabled="infScrollDis"
