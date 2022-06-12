@@ -1,6 +1,6 @@
 <template>
     <div>
-        groups users
+        <el-divider/>
         <!-- <div class="col-3">
             <h3>Draggable 1</h3>
             <draggable
@@ -36,17 +36,17 @@
         </div>
         {{lists}} -->
         <el-row type="flex">
-            <el-col v-for="(group, group_name) in lists"
-                    :key="group_name">
+            <el-col v-for="(group, group_name) in lists" :key="group_name" class="user-card">
                 <draggable
-                    
                     :list="lists[group_name]"
-                    :group="{name: group_name,pull:true, put:true}"
+                    :group="{ name: group_name, pull: true, put: true }"
                     @end="onEnd"
                     ghost-class="ghost"
-                    
                 >
-                    <template #header><el-button>Add</el-button></template>
+                    <template #header>
+                        <b>{{group_name}}</b>
+                        <el-button :type="getColorType(group_name)" icon="el-icon-plus" circle size="small" class="top-right"></el-button>
+                        </template>
                     <el-card
                         v-for="(element, ind) in lists[group_name]"
                         :key="ind"
@@ -69,6 +69,7 @@ export default {
     props: {
         usersData: Array,
         usersGroups: Array,
+        getColorType: Function,
     },
     computed: {
         lists: {

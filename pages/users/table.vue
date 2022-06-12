@@ -1,17 +1,17 @@
 <template>
     <div>
+      <el-divider/>
+      <!-- Почему-то бесконечный скролл не работает правильно -->
         <el-table
-            :data="usersData"
+            :data="users"
             height="500"
-            style="width: 100%"
+            style="width: 100%; overflow: auto"
             @selection-change="handleSelectionChange"
             v-infinite-scroll="load"
+            :infinite-scroll-disabled="infScrollDis"
             v-loading="$store.state.loading"
         >
             <el-table-column type="selection" width="55"></el-table-column>
-            <!-- <el-table-column label="Date" width="120">
-                <template slot-scope="scope">{{ scope.row.date }}</template>
-            </el-table-column> -->
             <el-table-column
                 sortable
                 property="name"
@@ -44,6 +44,7 @@
                 label="Номер телефона"
                 width="200"
             />
+            <!-- <div slot="append">Loading...</div> -->
         </el-table>
     </div>
 </template>
@@ -55,29 +56,40 @@ export default {
             usersGroupFilter: this.usersGroups.map((x) => {
                 return { text: x["name"], value: x["name"] };
             }),
-            users: [],
+            counter: 1,
+            LOADING_CONST: 10,
+            loading: false,
         };
     },
     props: {
         usersData: Array,
         usersGroups: Array,
+        handleSelectionChange: Function,
+        getColorType: Function,
+    },
+    computed: {
+        users() {
+            return this.usersData.slice(0, this.counter * this.LOADING_CONST);
+        },
+        infScrollDis() {
+            return this.loading || this.noMore;
+        },
+        noMore() {
+            return this.counter * this.LOADING_CONST >= this.usersData.length;
+        },
     },
     methods: {
         filterHandler(value, row, column) {
             const property = column["property"];
             return row[property] === value;
         },
-        handleSelectionChange(val) {
-            console.log(this.rdsRows());
-            this.multipleSelection = val;
-        },
-        getColorType(group) {
-            return this.usersGroups.find((x) => x.name == group)?.color;
-        },
         load() {
-            const uLen = this.users.length;
-            for (let i = uLen; i < this.usersData.length && i < uLen + 5; i++)
-                this.users += this.usersData[i];
+            console.log("load");
+            this.loading = true;
+            setTimeout(() => {
+                this.counter++;
+                this.loading = false;
+            }, 1000);
         },
     },
 };

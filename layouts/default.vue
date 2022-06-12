@@ -38,6 +38,7 @@ header {
     top: 0;
     background: white;
     box-shadow: white 10px 10px;
+    z-index: 100;
 }
 .logo-link {
     height: 80%;

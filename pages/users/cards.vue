@@ -18,8 +18,7 @@
             </el-select>
         </label> -->
         <!-- Filter groups -->
-
-        <hr />
+        <el-divider />
         <dataset
             v-slot="{ ds }"
             :ds-data="usersData"
@@ -32,11 +31,15 @@
                     <dataset-show />
                 </div>
             </div> -->
+            <!-- <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">Выделить всё</el-checkbox> -->
             <el-row :gutter="12" :data-show-entries="ds.showEntries(15)">
                 <dataset-item>
                     <template #default="{ row, rowIndex }">
+                      <!-- Почему-то группа отключает отображение текстовых элементов -->
+                      <!-- <el-checkbox-group v-model="selectedUsers" @change="handleSelectionChange"> -->
                         <el-col :xs="24" :sm="8">
-                            <el-card style="margin-bottom: 10px" shadow="hover">
+                            <el-card class="user-card" shadow="hover">
+                               <el-checkbox :label="row.id" class="top-left">{{ }}</el-checkbox>
                                 <p><b>{{ row.name }}</b></p>
                                 <el-avatar
                                     shape="square"
@@ -47,6 +50,7 @@
                                         alt="Avatar Placeholder"
                                 /></el-avatar>
                                 <el-upload
+                                    class="top-right"
                                     action="/api/posts/"
                                     accept="image/*"
                                     :show-file-list="false"
@@ -66,6 +70,7 @@
                                 </p>
                             </el-card>
                         </el-col>
+                        <!-- </el-checkbox-group> -->
                     </template>
                     <template #noDataFound>
                         <div class="col-md-12 pt-2">
@@ -90,11 +95,13 @@ export default {
         return {
             current_group: "",
             load_img_ind: null,
+            selectedUsers:[],
         };
     },
     props: {
         usersData: Array,
         usersGroups: Array,
+        handleSelectionChange: Function,
     },
     methods: {
         onLoadImg(res, file) {
@@ -107,4 +114,6 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+
+</style>
