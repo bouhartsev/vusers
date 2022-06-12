@@ -9,16 +9,13 @@
                 :router="true"
             >
                 <el-menu-item index="/">Приветствие</el-menu-item>
-                <el-menu-item index="/users/">
-                    <!-- <NuxtLink to="/users/"> -->
-                    Пользователи
-                    <!-- </NuxtLink> -->
-                </el-menu-item>
+                <el-menu-item index="/users/">Пользователи</el-menu-item>
             </el-menu>
         </el-header>
-        <el-main>
+        <el-main style="text-align:center">
             <Nuxt />
         </el-main>
+        <!-- <el-footer><el-link href="//bouhartsev.top" target="_blank">bouhartsev</el-link> © 2022</el-footer> -->
     </div>
 </template>
 
@@ -35,12 +32,12 @@ body {
     margin: 0;
 }
 header {
-  display: flex;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  background: white;
-  box-shadow: white 10px 10px;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    background: white;
+    box-shadow: white 10px 10px;
 }
 .logo-link {
     height: 80%;
