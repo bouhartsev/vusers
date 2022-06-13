@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-divider/>
+        <el-divider />
         <!-- <div class="col-3">
             <h3>Draggable 1</h3>
             <draggable
@@ -36,22 +36,48 @@
         </div>
         {{lists}} -->
         <el-row type="flex">
-            <el-col v-for="(group, group_name) in lists" :key="group_name" class="user-card">
+            <el-col
+                v-for="(group, group_name) in lists"
+                :key="group_name"
+                class="user-card"
+            >
+                <!-- <p style="margin: 8px 0 2px">
+                    <b>{{ group_name }}</b>
+                    <el-button
+                        :type="getColorType(group_name)"
+                        icon="el-icon-plus"
+                        circle
+                        size="small"
+                        class="top-right"
+                    ></el-button>
+                </p> -->
+                <!-- :list -->
                 <draggable
                     :list="lists[group_name]"
                     :group="{ name: group_name, pull: true, put: true }"
-                    @end="onEnd"
                     ghost-class="ghost"
+                    @end="onEnd"
+                    :data-group-name="group_name"
                 >
-                    <template #header>
-                        <b>{{group_name}}</b>
-                        <el-button :type="getColorType(group_name)" icon="el-icon-plus" circle size="small" class="top-right"></el-button>
-                        </template>
+                    <template #header
+                        ><b>{{ group_name }}</b>
+                        <el-button
+                            :type="getColorType(group_name)"
+                            icon="el-icon-plus"
+                            circle
+                            size="small"
+                            class="top-right"
+                        ></el-button
+                    ></template>
+                    <!-- v-infinite-scroll="load"
+                    :infinite-scroll-disabled="infScrollDis"
+                    infinite-scroll-distance="100" -->
                     <el-card
                         v-for="(element, ind) in lists[group_name]"
                         :key="ind"
+                        :data-id="element.id"
                     >
-                        {{ element.name }}
+                        {{ ind + " " + element.name }}
                     </el-card>
                 </draggable>
             </el-col>
@@ -63,6 +89,11 @@
 <script>
 import draggable from "vuedraggable";
 export default {
+    data() {
+        return {
+            CONST_WRONG_IND: -2,
+        };
+    },
     components: {
         draggable,
     },
@@ -84,16 +115,47 @@ export default {
                 return obj;
             },
             set(value) {
-                console.log(value);
+                // console.log("set computed");
             },
         },
     },
     methods: {
         onEnd(e) {
-            console.log(e);
+            let id = e.item.dataset.id;
+            let new_group = e.to.dataset.groupName;
+            if (e.pullMode)
+                this.$store.commit("SET_USER_GROUP", {
+                    id: id,
+                    new_group: new_group != "Остальные" ? new_group : "",
+                });
+            if (
+                (e.pullMode || e.newIndex != e.oldIndex) &&
+                this.lists[new_group].length != 1
+            )
+                this.moveUser(
+                    id,
+                    new_group,
+                    e.newIndex + this.CONST_WRONG_IND,
+                    !e.pullMode * e.oldIndex + this.CONST_WRONG_IND
+                ); // -2 because of some mistake in lib
         },
-        checkMove: function (e) {
-            console.log(e);
+        moveUser: function (id, group, newIndex, oldIndex) {
+            // смотреть на следующий, кроме последнего элемента и
+            const key =
+                newIndex != this.lists[group].length - 1 ? "normal" : "last";
+            if (
+                oldIndex != this.CONST_WRONG_IND &&
+                newIndex > oldIndex &&
+                key == "normal"
+            ) {
+                if (newIndex == oldIndex + 1) newIndex++;
+                else newIndex--;
+            }
+            console.log(newIndex, group, this.lists[group]);
+            this.$store.commit("MOVE_USER", {
+                id: id,
+                [key]: this.lists[group][newIndex].id,
+            });
         },
     },
 };

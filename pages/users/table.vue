@@ -1,17 +1,16 @@
 <template>
-    <div class="fill-container">
+    <div>
       <el-divider/>
-      <!-- Почему-то бесконечный скролл не работает правильно -->
         <el-table
-            :data="users"
-            :height="500"
-            class="fill-child"
+            :data="usersData"
+            height="500"
             @selection-change="handleSelectionChange"
-            v-infinite-scroll="load"
-            :infinite-scroll-disabled="infScrollDis"
+            row-key="id"
             v-loading="$store.state.loading"
+            use-virtual
+            use-row-key
         >
-            <el-table-column type="selection" width="55"></el-table-column>
+            <el-table-column type="selection" width="50"></el-table-column>
             <el-table-column
                 sortable
                 property="name"
@@ -29,7 +28,7 @@
                 width="150"
                 :filters="usersGroupFilter"
                 :filter-method="filterHandler"
-                filter-placement="bottom-end"
+                :show-overflow-tooltip="true"
             >
                 <template slot-scope="scope">
                     <el-tag
@@ -44,7 +43,6 @@
                 label="Номер телефона"
                 width="200"
             />
-            <!-- <div slot="append">Loading...</div> -->
         </el-table>
     </div>
 </template>
@@ -56,9 +54,9 @@ export default {
             usersGroupFilter: this.usersGroups.map((x) => {
                 return { text: x["name"], value: x["name"] };
             }),
-            counter: 1,
-            LOADING_CONST: 10,
-            loading: false,
+            // counter: 1,
+            // LOADING_CONST: 10,
+            // loading: false,
         };
     },
     props: {
@@ -68,28 +66,20 @@ export default {
         getColorType: Function,
     },
     computed: {
-        users() {
-            return this.usersData.slice(0, this.counter * this.LOADING_CONST);
-        },
-        infScrollDis() {
-            return this.loading || this.noMore;
-        },
-        noMore() {
-            return this.counter * this.LOADING_CONST >= this.usersData.length;
-        },
+        // users() {
+        //     return this.usersData.slice(0, this.counter * this.LOADING_CONST);
+        // },
+        // infScrollDis() {
+        //     return this.loading || this.noMore;
+        // },
+        // noMore() {
+        //     return this.counter * this.LOADING_CONST >= this.usersData.length;
+        // },
     },
     methods: {
         filterHandler(value, row, column) {
             const property = column["property"];
             return row[property] === value;
-        },
-        load() {
-            console.log("load");
-            this.loading = true;
-            setTimeout(() => {
-                this.counter++;
-                this.loading = false;
-            }, 1000);
         },
     },
 };

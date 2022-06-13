@@ -19,12 +19,26 @@ const mutations = {
     },
 
     SET_USER_IMG: (state, payload) => {
-        state.users[payload.ind].picture=payload.url;
+        state.users[payload.ind].picture = payload.url; // not actual index-?
+    },
+    MOVE_USER: (state, payload) => {
+        let fromIndex = state.users.findIndex((x) => x.id == payload.id);
+        const key = ("normal" in payload)?"normal":"last";
+        let toIndex = state.users.findIndex((x) => x.id == payload[key]);
+        if (fromIndex != -1 && toIndex != -1) {
+            let element = state.users[fromIndex];
+            state.users.splice(fromIndex, 1);
+            state.users.splice(toIndex, 0, element);
+        }
+    },
+    SET_USER_GROUP: (state, payload) => {
+        let obj = state.users.find((x) => x.id == payload.id);
+        if (obj) obj.group = payload.new_group;
     },
 };
 
 const actions = {
-    async GET_USERS(context, payload="api request") {
+    async GET_USERS(context, payload = "api request") {
         let data = await this.$axios.$get("users.json");
         context.commit("SET_USERS", data);
         console.log(payload);

@@ -1,5 +1,5 @@
 <template>
-    <div class="fill-container">
+    <div class="fill-container" style="min-height:100vh">
         <el-header>
             <a href="/" class="logo-link"><Logo /></a>
             <div class="flex-grow" />
@@ -15,7 +15,7 @@
         <el-main style="text-align:center" class="fill-child">
             <Nuxt />
         </el-main>
-        <!-- <el-footer><el-link href="//bouhartsev.top" target="_blank">bouhartsev</el-link> © 2022</el-footer> -->
+        <el-footer><el-link href="//bouhartsev.top" target="_blank">bouhartsev</el-link> © 2022</el-footer>
     </div>
 </template>
 
@@ -49,13 +49,13 @@ header {
 .flex-grow {
     flex-grow: 1;
 }
-/* .fill-container {
+.fill-container {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 .fill-child {
   width: 100%;
-  flex-grow: 3;
-} */
+  flex-grow: 1;
+}
 </style>

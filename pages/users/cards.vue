@@ -26,21 +26,22 @@
                 group: current_group,
             }"
         >
-            <!-- <div class="row mb-2" :data-page-count="ds.dsPagecount">
-                <div class="col-md-6 mb-2 mb-md-0">
-                    <dataset-show />
-                </div>
-            </div> -->
             <!-- <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">Выделить всё</el-checkbox> -->
             <el-row :gutter="12" :data-show-entries="ds.showEntries(15)">
                 <dataset-item>
                     <template #default="{ row, rowIndex }">
-                      <!-- Почему-то группа отключает отображение текстовых элементов -->
-                      <!-- <el-checkbox-group v-model="selectedUsers" @change="handleSelectionChange"> -->
+                        <!-- Почему-то группа отключает отображение текстовых элементов -->
+                        <!-- <el-checkbox-group v-model="selectedUsers" @change="handleSelectionChange"> -->
                         <el-col :xs="24" :sm="8">
                             <el-card class="user-card" shadow="hover">
-                               <el-checkbox :label="row.id" class="top-left">{{ }}</el-checkbox>
-                                <p><b>{{ row.name }}</b></p>
+                                <el-checkbox
+                                    :label="row.id"
+                                    class="top-left"
+                                    >{{
+                                }}</el-checkbox>
+                                <p>
+                                    <b>{{ row.name }}</b>
+                                </p>
                                 <el-avatar
                                     shape="square"
                                     :size="128"
@@ -49,9 +50,10 @@
                                         src="~assets/avatar.png"
                                         alt="Avatar Placeholder"
                                 /></el-avatar>
+                                <!-- Не работает превью фото на проде!!!! -->
                                 <el-upload
                                     class="top-right"
-                                    action="/api/posts/"
+                                    action="//httpbin.org/post"
                                     accept="image/*"
                                     :show-file-list="false"
                                     :on-success="onLoadImg"
@@ -63,10 +65,9 @@
                                     ></el-button>
                                 </el-upload>
                                 <p>
-                                  {{row.group}}
-                                  <br>
-                                    {{row.phone}}
-
+                                    {{ row.group }}
+                                    <br />
+                                    {{ row.phone }}
                                 </p>
                             </el-card>
                         </el-col>
@@ -95,7 +96,7 @@ export default {
         return {
             current_group: "",
             load_img_ind: null,
-            selectedUsers:[],
+            selectedUsers: [],
         };
     },
     props: {
@@ -114,6 +115,4 @@ export default {
 };
 </script>
 
-<style>
-
-</style>
+<style></style>
