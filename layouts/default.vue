@@ -15,7 +15,7 @@
         <el-main style="text-align:center" class="fill-child">
             <Nuxt />
         </el-main>
-        <el-footer><el-link href="//bouhartsev.top" target="_blank">bouhartsev</el-link> © 2022</el-footer>
+        <!-- <el-footer><el-link href="//bouhartsev.top" target="_blank">bouhartsev</el-link> © 2022</el-footer> -->
     </div>
 </template>
 

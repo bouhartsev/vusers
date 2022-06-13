@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-// import 
+// import { mapGetters } from "vuex";
+import {findAny} from 'vue-dataset/src/helpers'
 
 export default {
     data() {
@@ -80,8 +80,9 @@ export default {
     computed: {
         // ...mapGetters(["users"]),
         users() {
-            // example search // доработать!!
-            return this.$store.getters.users.filter(el=>el.name.toLowerCase().startsWith(this.search.toLowerCase()));
+            // поиск в трёх полях
+            return this.$store.getters.users.filter(el=>findAny(["name", "phone", "email"],{},el, this.search));
+            
         }
     },
 };

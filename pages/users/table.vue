@@ -2,7 +2,7 @@
     <div>
         <el-table
             :data="usersData"
-            height="500"
+            :height="tableHeight"
             @selection-change="handleSelectionChange"
             row-key="id"
             v-loading="$store.state.loading"
@@ -53,6 +53,7 @@ export default {
             usersGroupFilter: this.usersGroups.map((x) => {
                 return { text: x["name"], value: x["name"] };
             }),
+            tableHeight: 300,
         };
     },
     props: {
@@ -61,7 +62,22 @@ export default {
         handleSelectionChange: Function,
         getColorType: Function,
     },
+    created() {
+        window.addEventListener("resize", this.onResize);
+    },
+    updated() {
+        this.onResize();
+    },
+    mounted() {
+        this.tableHeight = 500;
+    },
+    destroyed() {
+        window.removeEventListener("resize", this.onResize);
+    },
     methods: {
+        onResize() {
+            this.tableHeight = window.innerHeight - document.querySelector(".el-table").getClientRects()[0].top - 25; //
+        },
         filterHandler(value, row, column) {
             const property = column["property"];
             return row[property] === value;

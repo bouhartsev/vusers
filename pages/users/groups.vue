@@ -16,7 +16,6 @@
                         class="top-right"
                     ></el-button>
                 </p>
-                <!-- :list -->
                 <draggable
                     :list="lists[group_name]"
                     :group="{ name: group_name, pull: true, put: true }"
@@ -56,11 +55,6 @@
 <script>
 import draggable from "vuedraggable";
 export default {
-    data() {
-        return {
-            CONST_WRONG_IND: 0,
-        };
-    },
     components: {
         draggable,
     },
@@ -114,7 +108,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .ghost {
     opacity: 0.5;
     background: #c8ebfb;

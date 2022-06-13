@@ -27,9 +27,7 @@
                 </el-radio-group>
                 </el-col>
         </el-row>
-
-        <!-- Filter groups -->
-        <!-- <el-divider /> -->
+        
         <dataset
             v-slot="{ ds }"
             :ds-data="usersData"
@@ -128,4 +126,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.el-radio-button__inner {
+    border-left: 1px;
+}
+</style>>
+</style>
