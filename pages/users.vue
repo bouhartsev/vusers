@@ -2,7 +2,7 @@
     <div>
         <h1 style="text-align: center">Список пользователей</h1>
         <el-divider />
-        <el-row type="flex">
+        <el-row type="flex" style="margin-bottom: 20px">
             <el-col>
                 <el-radio-group v-model="current_view" @change="changeView">
                     <el-radio-button

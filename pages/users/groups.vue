@@ -1,40 +1,5 @@
 <template>
     <div>
-        <el-divider />
-        <!-- <div class="col-3">
-            <h3>Draggable 1</h3>
-            <draggable
-                class="list-group"
-                :list="list1"
-                group="people"
-                @change="log"
-                itemKey="name"
-            >
-                <template #item="{ element, index }">
-                    <div class="list-group-item">
-                        {{ element.name }} {{ index }}
-                    </div>
-                </template>
-            </draggable>
-        </div>
-
-        <div class="col-3">
-            <h3>Draggable 2</h3>
-            <draggable
-                class="list-group"
-                :list="list2"
-                group="people"
-                @change="log"
-                itemKey="name"
-            >
-                <template #item="{ element, index }">
-                    <div class="list-group-item">
-                        {{ element.name }} {{ index }}
-                    </div>
-                </template>
-            </draggable>
-        </div>
-        {{lists}} -->
         <el-row type="flex">
             <el-col
                 v-for="(group, group_name) in lists"

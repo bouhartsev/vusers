@@ -1,30 +1,42 @@
 <template>
     <div>
-        <!-- Filter (group) -->
-        <!-- <label for="sorting"
-            >Сортировка
-            <el-select
-                v-model="current_sort"
-                placeholder="не сортировать"
-                name="sorting"
-            >
-                <el-option
-                    v-for="item in sorting"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                >
-                </el-option>
-            </el-select>
-        </label> -->
+        <el-row type="flex" style="margin-bottom: 20px">
+            <el-col>
+                <label for="sorting"
+                    >Сортировка по имени
+                    <el-select
+                        v-model="current_sort"
+                        placeholder="не сортировать"
+                        name="sorting"
+                    >
+                        <el-option label="не сортировать" value="" />
+                        <el-option label="в алфавитном порядке" value="name" />
+                        <el-option label="в обратном порядке" value="-name" />
+                    </el-select>
+                </label>
+            </el-col>
+            <el-col><el-radio-group v-model="current_group" fill="inherit" text-color="inherit">
+                    <el-radio-button label="" class="el-button--default">Все</el-radio-button>
+                    <el-radio-button
+                        v-for="item in usersGroups"
+                        :key="item.name"
+                        :label="item.name"
+                        :class="'el-button--'+item.color"
+                        >{{ item.name }}</el-radio-button
+                    >
+                </el-radio-group>
+                </el-col>
+        </el-row>
+
         <!-- Filter groups -->
-        <el-divider />
+        <!-- <el-divider /> -->
         <dataset
             v-slot="{ ds }"
             :ds-data="usersData"
             :ds-filter-fields="{
                 group: current_group,
             }"
+            :ds-sortby="[current_sort]"
         >
             <!-- <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">Выделить всё</el-checkbox> -->
             <el-row :gutter="12" :data-show-entries="ds.showEntries(15)">
@@ -96,7 +108,8 @@ export default {
         return {
             current_group: "",
             load_img_ind: null,
-            selectedUsers: [],
+            current_sort: "",
+            // selectedUsers: [],
         };
     },
     props: {

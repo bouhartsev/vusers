@@ -1,6 +1,5 @@
 <template>
     <div>
-      <el-divider/>
         <el-table
             :data="usersData"
             height="500"
@@ -54,9 +53,6 @@ export default {
             usersGroupFilter: this.usersGroups.map((x) => {
                 return { text: x["name"], value: x["name"] };
             }),
-            // counter: 1,
-            // LOADING_CONST: 10,
-            // loading: false,
         };
     },
     props: {
@@ -64,17 +60,6 @@ export default {
         usersGroups: Array,
         handleSelectionChange: Function,
         getColorType: Function,
-    },
-    computed: {
-        // users() {
-        //     return this.usersData.slice(0, this.counter * this.LOADING_CONST);
-        // },
-        // infScrollDis() {
-        //     return this.loading || this.noMore;
-        // },
-        // noMore() {
-        //     return this.counter * this.LOADING_CONST >= this.usersData.length;
-        // },
     },
     methods: {
         filterHandler(value, row, column) {
