@@ -41,7 +41,7 @@
                 :key="group_name"
                 class="user-card"
             >
-                <!-- <p style="margin: 8px 0 2px">
+                <p style="margin: 8px 0 2px">
                     <b>{{ group_name }}</b>
                     <el-button
                         :type="getColorType(group_name)"
@@ -50,7 +50,7 @@
                         size="small"
                         class="top-right"
                     ></el-button>
-                </p> -->
+                </p>
                 <!-- :list -->
                 <draggable
                     :list="lists[group_name]"
@@ -59,7 +59,7 @@
                     @end="onEnd"
                     :data-group-name="group_name"
                 >
-                    <template #header
+                    <!-- <template #header
                         ><b>{{ group_name }}</b>
                         <el-button
                             :type="getColorType(group_name)"
@@ -68,7 +68,7 @@
                             size="small"
                             class="top-right"
                         ></el-button
-                    ></template>
+                    ></template> -->
                     <!-- v-infinite-scroll="load"
                     :infinite-scroll-disabled="infScrollDis"
                     infinite-scroll-distance="100" -->
@@ -76,8 +76,10 @@
                         v-for="(element, ind) in lists[group_name]"
                         :key="ind"
                         :data-id="element.id"
+                        style="cursor:pointer"
                     >
-                        {{ ind + " " + element.name }}
+                        <p>{{ element.name }}</p>
+                        <i>{{element.phone}}</i>
                     </el-card>
                 </draggable>
             </el-col>
@@ -91,7 +93,7 @@ import draggable from "vuedraggable";
 export default {
     data() {
         return {
-            CONST_WRONG_IND: -2,
+            CONST_WRONG_IND: 0,
         };
     },
     components: {
@@ -115,7 +117,7 @@ export default {
                 return obj;
             },
             set(value) {
-                // console.log("set computed");
+                console.log("set computed (how?)");
             },
         },
     },
@@ -130,32 +132,18 @@ export default {
                 });
             if (
                 (e.pullMode || e.newIndex != e.oldIndex) &&
-                this.lists[new_group].length != 1
-            )
-                this.moveUser(
-                    id,
-                    new_group,
-                    e.newIndex + this.CONST_WRONG_IND,
-                    !e.pullMode * e.oldIndex + this.CONST_WRONG_IND
-                ); // -2 because of some mistake in lib
-        },
-        moveUser: function (id, group, newIndex, oldIndex) {
-            // смотреть на следующий, кроме последнего элемента и
-            const key =
-                newIndex != this.lists[group].length - 1 ? "normal" : "last";
-            if (
-                oldIndex != this.CONST_WRONG_IND &&
-                newIndex > oldIndex &&
-                key == "normal"
+                this.lists[new_group].length > 1
             ) {
-                if (newIndex == oldIndex + 1) newIndex++;
-                else newIndex--;
+                let newIndex = e.newIndex;
+                if (!e.pullMode) {
+                    if (newIndex > e.oldIndex) newIndex--;
+                    else newIndex++;
+                }
+                this.$store.commit("MOVE_USER", {
+                    id: id,
+                    close: this.lists[new_group][newIndex]?.id,
+                });
             }
-            console.log(newIndex, group, this.lists[group]);
-            this.$store.commit("MOVE_USER", {
-                id: id,
-                [key]: this.lists[group][newIndex].id,
-            });
         },
     },
 };

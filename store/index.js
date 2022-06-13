@@ -23,8 +23,7 @@ const mutations = {
     },
     MOVE_USER: (state, payload) => {
         let fromIndex = state.users.findIndex((x) => x.id == payload.id);
-        const key = ("normal" in payload)?"normal":"last";
-        let toIndex = state.users.findIndex((x) => x.id == payload[key]);
+        let toIndex = state.users.findIndex((x) => x.id == payload.close);
         if (fromIndex != -1 && toIndex != -1) {
             let element = state.users[fromIndex];
             state.users.splice(fromIndex, 1);
