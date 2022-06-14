@@ -2,8 +2,8 @@
     <div>
         <h1 style="text-align: center">Список пользователей</h1>
         <el-divider />
-        <el-row type="flex" style="margin-bottom: 20px">
-            <el-col>
+        <Settings>
+            <template #left>
                 <el-radio-group v-model="current_view" @change="changeView">
                     <el-radio-button
                         v-for="item in views"
@@ -12,15 +12,15 @@
                         >{{ item.label }}</el-radio-button
                     >
                 </el-radio-group>
-            </el-col>
-            <el-col>
+            </template>
+            <template #right>
                 <el-input
                     placeholder="Поиск"
                     prefix-icon="el-icon-search"
                     v-model="search"
                     clearable
-            /></el-col>
-        </el-row>
+            /></template>
+        </Settings>
         <NuxtChild
             :usersData="users"
             :usersGroups="usersGroups"
@@ -32,7 +32,7 @@
 
 <script>
 // import { mapGetters } from "vuex";
-import {findAny} from 'vue-dataset/src/helpers'
+import { findAny } from "vue-dataset/src/helpers";
 
 export default {
     data() {
@@ -81,17 +81,18 @@ export default {
         // ...mapGetters(["users"]),
         users() {
             // поиск в трёх полях
-            return this.$store.getters.users.filter(el=>findAny(["name", "phone", "email"],{},el, this.search));
-            
-        }
+            return this.$store.getters.users.filter((el) =>
+                findAny(["name", "phone", "email"], {}, el, this.search)
+            );
+        },
     },
 };
 </script>
 
 <style>
 .user-card {
-  margin: 0 10px 10px;
-  position: relative;
+    margin: 0 10px 10px;
+    position: relative;
 }
 .top-right,
 .top-left {

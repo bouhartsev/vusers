@@ -19,7 +19,8 @@ const mutations = {
     },
 
     SET_USER_IMG: (state, payload) => {
-        state.users[payload.ind].picture = payload.url; // not actual index-?
+        let obj = state.users.find((x) => x.id == payload.id);
+        if (obj) obj.picture = payload.url;
     },
     MOVE_USER: (state, payload) => {
         let fromIndex = state.users.findIndex((x) => x.id == payload.id);

@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <el-row type="flex">
+    <div style="overflow-x:auto;" v-loading="$store.state.loading">
+        <el-row type="flex" style="min-width:1100px;min-height:100px;width:100%;">
             <el-col
                 v-for="(group, group_name) in lists"
                 :key="group_name"
@@ -33,9 +33,6 @@
                             class="top-right"
                         ></el-button
                     ></template> -->
-                    <!-- v-infinite-scroll="load"
-                    :infinite-scroll-disabled="infScrollDis"
-                    infinite-scroll-distance="100" -->
                     <el-card
                         v-for="(element, ind) in lists[group_name]"
                         :key="ind"

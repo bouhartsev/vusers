@@ -1,7 +1,7 @@
 <template>
     <div>
-        <el-row type="flex" style="margin-bottom: 20px">
-            <el-col>
+        <Settings>
+            <template #left>
                 <label for="sorting"
                     >Сортировка по имени
                     <el-select
@@ -14,21 +14,43 @@
                         <el-option label="в обратном порядке" value="-name" />
                     </el-select>
                 </label>
-            </el-col>
-            <el-col><el-radio-group v-model="current_group" fill="inherit" text-color="inherit">
-                    <el-radio-button label="" class="el-button--default">Все</el-radio-button>
+            </template>
+            <template #right>
+                <el-select
+                    v-model="current_group"
+                    name="sorting"
+                    class="hidden-lg-only"
+                >
+                    <el-option label="Все" value="" />
+                    <el-option
+                        v-for="item in usersGroups"
+                        :key="item.name"
+                        :label="item.name"
+                        :value="item.name"
+                    />
+                </el-select>
+                <el-radio-group
+                    v-model="current_group"
+                    fill="inherit"
+                    text-color="inherit"
+                    class="hidden-md-and-down"
+                >
+                    <el-radio-button label="" class="el-button--default"
+                        >Все</el-radio-button
+                    >
                     <el-radio-button
                         v-for="item in usersGroups"
                         :key="item.name"
                         :label="item.name"
-                        :class="'el-button--'+item.color"
+                        :class="'el-button--' + item.color"
                         >{{ item.name }}</el-radio-button
                     >
                 </el-radio-group>
-                </el-col>
-        </el-row>
-        
+            </template>
+        </Settings>
+
         <dataset
+            v-loading="$store.state.loading"
             v-slot="{ ds }"
             :ds-data="usersData"
             :ds-filter-fields="{
@@ -39,7 +61,7 @@
             <!-- <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">Выделить всё</el-checkbox> -->
             <el-row :gutter="12" :data-show-entries="ds.showEntries(15)">
                 <dataset-item>
-                    <template #default="{ row, rowIndex }">
+                    <template #default="{ row }">
                         <!-- Почему-то группа отключает отображение текстовых элементов -->
                         <!-- <el-checkbox-group v-model="selectedUsers" @change="handleSelectionChange"> -->
                         <el-col :xs="24" :sm="8">
@@ -60,7 +82,6 @@
                                         src="~assets/avatar.png"
                                         alt="Avatar Placeholder"
                                 /></el-avatar>
-                                <!-- Не работает превью фото на проде!!!! -->
                                 <el-upload
                                     class="top-right"
                                     action="//httpbin.org/post"
@@ -70,7 +91,7 @@
                                     v-if="!row.picture"
                                     ><el-button
                                         icon="el-icon-upload"
-                                        @click="load_img_ind = rowIndex"
+                                        @click="load_img_ind = row.id"
                                         circle
                                     ></el-button>
                                 </el-upload>
@@ -105,7 +126,7 @@ export default {
     data() {
         return {
             current_group: "",
-            load_img_ind: null,
+            load_img_id: null,
             current_sort: "",
             // selectedUsers: [],
         };
@@ -118,7 +139,7 @@ export default {
     methods: {
         onLoadImg(res, file) {
             this.$store.commit("SET_USER_IMG", {
-                ind: this.load_img_ind,
+                id: this.load_img_ind,
                 url: URL.createObjectURL(file.raw),
             });
         },
@@ -130,5 +151,5 @@ export default {
 .el-radio-button__inner {
     border-left: 1px;
 }
-</style>>
 </style>
+>

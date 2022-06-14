@@ -1,18 +1,25 @@
 <template>
-    <div class="fill-container" style="min-height:100vh">
-        <el-header>
+    <div class="fill-container" style="min-height: 100vh">
+        <el-header class="main-header">
             <a href="/" class="logo-link"><Logo /></a>
             <div class="flex-grow" />
-            <el-menu
-                mode="horizontal"
-                :default-active="$nuxt.$route.path"
-                :router="true"
-            >
-                <el-menu-item index="/">Приветствие</el-menu-item>
-                <el-menu-item index="/users/">Пользователи</el-menu-item>
-            </el-menu>
+            <Menu class="hidden-sm-and-down" />
+            <el-button
+                icon="el-icon-menu"
+                @click="menu = !menu"
+                type="text"
+                class="hidden-md-and-up"
+            />
         </el-header>
-        <el-main style="text-align:center" class="fill-child">
+        <el-drawer
+            direction="rtl"
+            :visible.sync="menu"
+            style="z-index: 50"
+            title="Меню"
+        >
+            <Menu mobile />
+        </el-drawer>
+        <el-main style="text-align: center" class="fill-child">
             <Nuxt />
         </el-main>
         <!-- <el-footer><el-link href="//bouhartsev.top" target="_blank">bouhartsev</el-link> © 2022</el-footer> -->
@@ -22,16 +29,19 @@
 <script>
 export default {
     layout: "default",
+    data() {
+        return { menu: false };
+    },
 };
 </script>
 
 <style>
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    overflow-y: overlay;
+    /* overflow-y: overlay; */
     margin: 0;
 }
-header {
+.main-header {
     display: flex;
     align-items: center;
     position: sticky;
@@ -50,12 +60,12 @@ header {
     flex-grow: 1;
 }
 .fill-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 .fill-child {
-  width: 100%;
-  flex-grow: 1;
+    width: 100%;
+    flex-grow: 1;
 }
 </style>
